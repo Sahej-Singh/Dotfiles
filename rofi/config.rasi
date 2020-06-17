@@ -1,0 +1,8 @@
+configuration {
+ modi: "window,drun,ssh,combi";
+ theme: "glue_pro_blue";
+ font: "Iosevka 12";
+ combi-modi: "window,drun,ssh";
+ }
+
+@import "/usr/share/rofi/themes/glue_pro_blue.rasi"

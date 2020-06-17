@@ -1,0 +1,321 @@
+enable-ipc = true
+
+[colors]
+
+background = #aa00
+
+background-alt = #3d0s90
+
+foreground = #e8b3ff
+
+foreground-alt = #555
+
+primary = ${xrdb:color6:#222}
+
+secondary = ${xrdb:color3:#222}
+
+alert = #c22d5c
+
+[bar/example]
+
+;monitor = ${env:MONITOR:HDMI-1}
+
+width = 100%
+
+height = 24
+
+;offset-x = 5%
+
+;offset-y = 5%
+
+radius = 0.0
+
+fixed-center = true
+
+background = ${colors.background}
+
+foreground = ${colors.foreground}
+
+line-size = 3
+
+line-color = #e00
+
+border-size = 0
+
+border-color = #00000000
+
+padding-left = 2
+
+padding-right = 2
+
+module-margin-left = 2
+
+module-margin-right = 0
+
+font-0 = Overpass:pixelsize=12;1
+
+font-1 = uni font:fontformat=truetype:size=10:antialias=false;0
+
+font-2 = siji:pixelsize=12;1
+
+font-3 = FontAwesome:style=Solid:size=17;1
+
+font-4 = FontAwesome:style=Regular:size=12;4
+
+font-5 = Font-Awesome-5-Free-Solid:size17;1
+
+font-6 = Font-Awesome-5:style=Free-Solid:size=17;1
+
+font-7 = FontAwesome5Free:style=Solid:size=12;4
+
+font-8 = FontAwesome5Free:style=Regular:size=12;4
+
+font-9 = FontAwesome5Brands:style=Regular:size=12;4
+
+modules-left = i3 xwindow
+
+modules-center = date
+
+modules-right = network pulseaudio battery 
+
+tray-position = right
+
+tray-padding = 0
+
+tray-background = #aa00
+
+tray-maxsize = 30
+
+cursor-click = pointer
+
+cursor-scroll = ns-resize
+
+bottom = false
+
+[module/xwindow]
+
+type = internal/xwindow
+
+label = %title:0:30:...%
+
+format-foreground = #f5ada6
+
+[module/i3]
+
+type = internal/i3
+
+format = <label-state> <label-mode>
+
+index-sort = true
+
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+
+;pin-workspaces = true
+
+label-mode-padding = 2
+
+label-mode-foreground = #e5eba4
+
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+
+label-focused = %index%
+
+label-focused-background = ${colors.background-alt}
+
+label-focused-underline= ${colors.primary}
+
+label-focused-padding = 2
+
+label-focused-foreground = #e5eba4
+; unfocused = Inactive workspace on any monitor
+
+label-unfocused = %index%
+
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+
+label-visible = %index%
+
+label-visible-background = ${self.label-focused-background}
+
+label-visible-underline = ${self.label-focused-underline}
+
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+
+label-urgent = %index%
+
+label-urgent-background = ${colors.alert}
+
+label-urgent-padding = 2
+
+; Separator in between workspaces
+
+; label-separator = |
+
+[module/wireless-network]
+type = internal/network
+interface = wlo1
+
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = wlo1
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+;udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices like USB network adapters have 
+; an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+; Available tags:
+;   <label-connected> (default)
+;   <ramp-signal>
+format-connected = <label-connected>
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+format-packetloss = <animation-packetloss> <label-connected>
+
+; All labels support the following tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+
+; Default: %ifname% %local_ip%
+label-connected = %local_ip% | %essid% |%downspeed:9% |
+label-connected-foreground = #5ef286
+
+; Default: (none)
+label-disconnected = not connected
+label-disconnected-foreground = #66ffffff
+
+; Default: (none)
+;label-packetloss = %essid%
+;label-packetloss-foreground = #eefafafa
+
+; Only applies if <ramp-signal> is used
+ramp-signal-0 = 😱
+ramp-signal-1 = 😠
+ramp-signal-2 = 😒
+ramp-signal-3 = 😊
+ramp-signal-4 = 😃
+ramp-signal-5 = 😈
+
+; Only applies if <animation-packetloss> is used
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 📶
+animation-packetloss-1-foreground = #000000
+; Framerate in milliseconds
+animation-packetloss-framerate = 500
+
+
+[module/date]
+
+type = internal/date
+
+interval = 0.5
+
+date = 
+
+date-alt = 
+
+time = %H:%M:%S | %d. %m. %Y. %a
+
+time-alt = %H:%M:%S | %d. %m. %Y
+
+format-prefix-foreground = ${colors.foreground-alt}
+format-foreground = #bae3e6
+format-underline = ${colors.secondary}
+
+label = %date% %time%
+
+[module/pulseaudio]
+
+type = internal/pulseaudio
+
+format-volume = <label-volume>
+
+label-volume = %percentage%% |
+
+label-muted = muted 
+
+label-volume-foreground = ${root.foreground}
+
+label-muted-foreground = #666
+
+format-volume-underline = ${colors.primary}
+
+format-muted-underline = ${colors.secondary}
+
+[module/battery]
+
+type = internal/battery
+
+battery = BAT0
+
+adapter = AC
+
+full-at = 98
+
+time-format = %H:%M
+
+label-discharging = %percentage%%
+
+format-charging = <label-charging>
+
+format-charging-underline = ${colors.secondary}
+
+format-discharging = <label-discharging>
+
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full-prefix = " "
+
+format-full-prefix-foreground = ${colors.foreground-alt}
+
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+;animation-charging-foreground = ${colors.foreground-alt}
+
