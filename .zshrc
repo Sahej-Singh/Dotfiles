@@ -1,19 +1,41 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # .zshrc
 # Basic zsh config.
 
 umask 077
-ZDOTDIR=${HOME}/.zsh
+ZDOTDIR=${ZDOTDIR:-${HOME}}
 ZSHDDIR="${HOME}/.config/zsh.d"
 HISTFILE="${ZDOTDIR}/.zsh_history"
 HISTSIZE='10000'
 SAVEHIST="${HISTSIZE}"
+ZSH='/usr/share/oh-my-zsh'
+ZSH_THEME="powerlevel10k/powerlevel10k"
+DISABLE_AUTO_UPDATE="true"
+plugins=(git
+	themes
+	virtualenv
+	sudo 
+	emoji
+	fancy-ctrl-z)
+
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+
 
 export EDITOR="/usr/bin/nvim"
 export TMP="/tmp"
 export TEMP="$TMP"
 export TMPDIR="$TMP"
 export TMPPREFIX="${TMPDIR}/zsh"
-export BROWSER="firefox"
+export BROWSER="/usr/bin/firefox"
 export COLORTERM="truecolor"
 # Copied from arch wiki - color output in console
 export LESS=-R
@@ -198,11 +220,10 @@ termtitle() {
             local prompt_char="${(%):-%~}"
             case "$1" in
                 precmd)
-					printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
                 ;;
                 preexec)
-					printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
-
+                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
                 ;;
             esac
         ;;
@@ -305,9 +326,7 @@ autoload -U zargs
 setopt promptsubst
 
 
-# Prevent insert key from changing input mode.
-# (switch to Emacs mode)
-bindkey -v
+# (switch to vim mode)
 
 # Control-x-e to open current line in $EDITOR, awesome when writting functions or editing multiline commands.
 autoload -U edit-command-line
@@ -518,7 +537,8 @@ alias tb='taskbook'
 alias mus='cd /mnt/HDD/music && cmus '
 alias dow='cd /mnt/HDD/Downloads'
 alias x.s='xset dpms force standby'
-
+alias sus='systemctl suspend'
+alias shut='shutdown -h now'
 if command -v colordiff > /dev/null 2>&1; then
     alias diff="colordiff -Nuar"
 else
@@ -530,6 +550,7 @@ alias egrep='egrep --colour=auto'
 alias ls='ls --color=auto --human-readable --group-directories-first --classify'
 alias ll='ls --color=auto --human-readable --group-directories-first --classify -l'
 alias lla='ls --color=auto --human-readable --group-directories-first --classify -la'
+alias w.n='curl "https://wttr.in/noida"'
 
 
 # Keys.
@@ -576,3 +597,10 @@ bindkey "^S" history-incremental-pattern-search-forward
 
 if [ -f ~/.alert ]; then echo '>>> Check ~/.alert'; fi
 	
+bindkey -M viins '\e.' insert-last-word
+source $ZSH/oh-my-zsh.sh
+source $ZSH/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+bindkey -v 
